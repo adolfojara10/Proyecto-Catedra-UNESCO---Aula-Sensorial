@@ -52,26 +52,7 @@ class Estudiante(db.Model):
     def __repr__(self) -> str:
         return f"Docente('{self.nombre}', '{self.apellido}', '{self.fechaNacimiento}', '{self.residencia}', '{self.diagnostico}')"
 
-    
-class Juego(db.Model):
-    
-    id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(75), nullable=False)
-    
-      
-class Reporte(db.Model):
-    
-    id = db.Column(db.Integer, primary_key=True)
-    calificacion = db.Column(db.String(2), nullable=False)
-    fecha = db.Column(db.Date, nullable=False, default=date.today())
-    
-    docente_id = db.Column(db.Integer, db.ForeignKey('docente.id'), nullable=False)
-    estudiante_id = db.Column(db.Integer, db.ForeignKey('estudiante.id'), nullable=False)
-    juego_id = db.Column(db.Integer, db.ForeignKey('juego.id'), nullable=False)
-    
-    def __repr__(self) -> str:
-        return f"Docente('{self.docente_id.nombre}', '{self.estudiante_id.nombre}', '{self.juego_id.nombre}', '{self.calificacion}')"
-    
+        
 
 @app.route('/')
 def home():
