@@ -1,6 +1,6 @@
 body {
-    background: #fafafa;
-    color: #333333;
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-success-rgb), var(--bs-bg-opacity)) !important;
     margin-top: 5rem;
   }
   
