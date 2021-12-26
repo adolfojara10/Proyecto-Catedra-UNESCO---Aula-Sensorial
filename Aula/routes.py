@@ -29,6 +29,8 @@ def escogerEstudiante():
     
     estudiantes = Estudiante.query.all()
     
+    print(type(estudiantes))
+    
     return render_template('escogerEstudiante.html', title='Estudiante', estudiantes=estudiantes)
 
 

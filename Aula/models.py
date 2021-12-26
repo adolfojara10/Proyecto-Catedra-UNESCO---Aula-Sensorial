@@ -37,4 +37,4 @@ class Estudiante(db.Model):
     escolarizado = db.Column(db.String(2), nullable=False)
     
     def __repr__(self) -> str:
-        return f"Docente('{self.nombre}', '{self.apellido}', '{self.fechaNacimiento}', '{self.residencia}', '{self.diagnostico}')"
+        return f"Estudiante('{self.nombre}', '{self.apellido}', '{self.fechaNacimiento}', '{self.residencia}', '{self.diagnostico}')"
