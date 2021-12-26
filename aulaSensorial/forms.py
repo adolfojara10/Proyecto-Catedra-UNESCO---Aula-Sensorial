@@ -3,7 +3,7 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateF
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 
-class RegistrarDocente(FlaskForm):
+class RegistrarDocenteForm(FlaskForm):
     nombre = StringField('Nombre',
                            validators=[DataRequired(), Length(min=2, max=75)])
     apellido = StringField('Apellido',
@@ -23,7 +23,7 @@ class RegistrarDocente(FlaskForm):
     submit = SubmitField('Crear Docente')
     
 
-class RegistrarEstudiante(FlaskForm):
+class RegistrarEstudianteForm(FlaskForm):
     nombre = StringField('Nombre',
                            validators=[DataRequired(), Length(min=2, max=75)])
     apellido = StringField('Apellido',
