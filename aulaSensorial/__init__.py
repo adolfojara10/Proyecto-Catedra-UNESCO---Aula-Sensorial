@@ -8,7 +8,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SECRET_KEY'] = '917dd64aa8e7d27e920a93e9f298f6be715aa320'
 
 #the connection with bbdd: /// -> are a relative path to the current file
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///aulaSensorial.db'
 
 db = SQLAlchemy(app)
 
