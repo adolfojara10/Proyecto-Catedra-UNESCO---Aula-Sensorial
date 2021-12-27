@@ -1,6 +1,7 @@
 from datetime import date
 from Aula import db, login_manager
 from flask_login import UserMixin 
+from json import JSONEncoder
 
 @login_manager.user_loader
 def load_user(docente_id):
@@ -38,3 +39,9 @@ class Estudiante(db.Model):
     
     def __repr__(self) -> str:
         return f"Estudiante('{self.nombre}', '{self.apellido}', '{self.fechaNacimiento}', '{self.residencia}', '{self.diagnostico}')"
+
+
+class Encoder(JSONEncoder):
+    
+    def default(self ,o):
+        return o.__dict__

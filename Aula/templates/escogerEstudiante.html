@@ -37,7 +37,7 @@
             {% endfor %}
         </tbody>
       </table>
-      <input type="button" id="tst" value="OK" onclick="fnselect()" />
+      <input type="button" id="tst" value="OK" onclick="fnselect()"/>
     
     <script>
         var table = document.getElementById('table');
@@ -50,19 +50,42 @@
         }
         
         function fnselect(){
+            
             var element = document.querySelectorAll('.selected');
-
+            
             if(element[0]!== undefined){ //it must be selected
               alert(element[0].children[0].firstChild.data);
-              /*
-              var arrayLength = estudiantes.length;
-              for (var i = 0; i < arrayLength; i++) {
-                  console.log(estudiantes[i]);
-                //Do something
-              }*/
+              var id_est = new Number(element[0].children[0].firstChild.data);
+              console.log(id_est)
+              $.ajax(
+                {
+                    type:'POST',
+                    contentType:'application/json;charset-utf-08',
+                    dataType:'json',
+                    url:'http://127.0.0.1:5000/procesando'+id_est ,
+                    success:function (data) {
+                        var reply=data.reply;
+                        if (reply=="success")
+                        {
+                            return;
+                        }
+                        else
+                            {
+                            alert("some error ocured in session agent")
+                            }
+
+                    }
+                }
+            );
+                            
+              console.log("{{estudiantes}}");
+              console.log("{{estudiantesJSON}}");
+              
+                            
             }
 
         }
+        
   </script>
 
   <!--

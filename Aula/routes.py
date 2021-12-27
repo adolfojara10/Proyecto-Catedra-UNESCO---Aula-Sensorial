@@ -1,9 +1,12 @@
 from flask import render_template, url_for, flash, redirect, request
-from Aula import app, db, bcrypt
+from flask.json import jsonify
+from Aula import app, db, bcrypt, id_estudiante
 from Aula.forms import LoginForm, RegistrarEstudianteForm, RegistrarDocenteForm
-from Aula.models import Estudiante, Docente
+from Aula.models import Estudiante, Docente, Encoder
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import date
+import json
+from flask_cors import cross_origin
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -24,15 +27,32 @@ def home():
     return render_template('home.html', title='Login', form=form)
 
 
-@app.route("/escogerEstudiante", methods=['GET', 'POST'])
+@app.route("/escogerEstudiante", methods=['GET', 'POST', 'OPTIONS'])
+@cross_origin(origin='localhost',headers=['Content- Type','Authorization'], supports_credentials=True)
 def escogerEstudiante():
     
     estudiantes = Estudiante.query.all()
+    estudiantesJSON = (Encoder().encode(est) for est in estudiantes)
     
-    print(type(estudiantes))
+    #estudiantesJSON = json.dumps(estudiantes)
     
-    return render_template('escogerEstudiante.html', title='Estudiante', estudiantes=estudiantes)
+    #print(estudiantes[0].id)
+    
+    """
+    if request.method == 'post':
+        js_variable = request.form
+        print(js_variable)
+"""
+    
+    return render_template('escogerEstudiante.html', title='Estudiante', estudiantes=estudiantes, estudiantesJSON=estudiantesJSON)
 
+
+@app.route("/procesando", methods=['POST', 'OPTIONS'])
+@cross_origin(origin='localhost',headers=['Content- Type','Authorization'], supports_credentials=True)
+def procesando():
+    name=request.args.get('value')
+    print('name',name)
+    return jsonify({'reply':'success'})
 
 @app.route("/about")
 def about():
