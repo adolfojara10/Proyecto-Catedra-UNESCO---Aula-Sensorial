@@ -34,6 +34,12 @@ def escogerEstudiante():
     estudiantes = Estudiante.query.all()
     estudiantesJSON = (Encoder().encode(est) for est in estudiantes)
     
+    """
+    if ( request.args.get('value') != None):
+        name=request.args.get('value')
+        print('name',name)
+        return jsonify({'reply':'success'})
+    """
     #estudiantesJSON = json.dumps(estudiantes)
     
     #print(estudiantes[0].id)
@@ -47,13 +53,36 @@ def escogerEstudiante():
     return render_template('escogerEstudiante.html', title='Estudiante', estudiantes=estudiantes, estudiantesJSON=estudiantesJSON)
 
 
-@app.route("/procesando", methods=['POST', 'OPTIONS'])
-@cross_origin(origin='localhost',headers=['Content- Type','Authorization'], supports_credentials=True)
+#@cross_origin(origin='localhost',headers=['Content- Type','Authorization'], supports_credentials=True)
+@app.route("/procesando", methods=['GET','POST'])
 def procesando():
+    
+    if request.method == "POST":
+        qtc_data =  request.get_json()
+        print(type(qtc_data))
+        idEst = int(qtc_data)
+        print(type(idEst))
+        estu = Estudiante.query.filter_by(id=idEst).first()
+        
+        print(estu)
+        return qtc_data
+    
+    #information = request.data
+    
+    
+    
+    #name = request.form.get('name')
+    
+    """
+    jsdata = request.form['javascript_data']
+    print(jsdata)
+    
+    
     name=request.args.get('value')
     print('name',name)
     return jsonify({'reply':'success'})
-
+    """
+    
 @app.route("/about")
 def about():
     return render_template('about.html', title='About')

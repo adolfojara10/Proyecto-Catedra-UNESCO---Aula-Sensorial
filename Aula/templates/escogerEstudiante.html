@@ -55,16 +55,64 @@
             
             if(element[0]!== undefined){ //it must be selected
               alert(element[0].children[0].firstChild.data);
-              var id_est = new Number(element[0].children[0].firstChild.data);
+              var id_est = (element[0].children[0].firstChild.data);
               console.log(id_est)
+
+              $.ajax({
+                type: "POST",
+                url: "/procesando",
+                data: JSON.stringify(id_est),
+                contentType: "application/json",
+                dataType: 'json',
+                success: function(result) {
+                  console.log("Result:");
+                  console.log(result);
+                } 
+              });
+
+              /*
+              const URL = 'http://127.0.0.1:5000/procesando'
+              const xhr = new XMLHttpRequest();
+              sender = JSON.stringify([
+                [1, 2, 3],
+                [4, 5, 6],
+                [7, 8, 9]
+              ])
+              xhr.open('POST', URL);
+              xhr.send(sender);
+*/
+
+              /*
+              $.ajax({
+                url: '{{ url_for('procesando') }}',
+                type: 'POST',
+                data: {
+                    name: id_est
+                },
+                success: function (response) {
+                },
+                error: function (response) {
+                }
+            });*/
+    
+
+              /*
+              $.post( "/procesando", {
+                javascript_data: id_est 
+              });
+*/
+              //$.get( "/procesando/<javascript_data>" );
+
+              /*
               $.ajax(
                 {
                     type:'POST',
                     contentType:'application/json;charset-utf-08',
                     dataType:'json',
-                    url:'http://127.0.0.1:5000/procesando'+id_est ,
+                    url:'http://127.0.0.1:5000/procesando',
                     success:function (data) {
                         var reply=data.reply;
+                        console.log(reply);
                         if (reply=="success")
                         {
                             return;
@@ -76,10 +124,10 @@
 
                     }
                 }
-            );
+            );*/
                             
-              console.log("{{estudiantes}}");
-              console.log("{{estudiantesJSON}}");
+              //console.log("{{estudiantes}}");
+              //console.log("{{estudiantesJSON}}");
               
                             
             }
