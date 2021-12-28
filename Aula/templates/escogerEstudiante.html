@@ -9,7 +9,7 @@
     </form>
 -->
 
-    <table id="table" class="table table-hover"  data-toggle="table" data-search="true">
+    <table id="table" class="table table-hover"  data-toggle="table" data-pagination="true" data-search="true">
           <thead>
           <tr>
             <th scope="col">ID</th>
@@ -37,8 +37,9 @@
             {% endfor %}
         </tbody>
       </table>
-      <input type="button" id="tst" value="OK" onclick="fnselect()"/>
-    
+      <br>
+      <a class="btn btn-primary" href="{{ url_for('escogerJuego') }}" role="button" onclick="fnselect()">Continuar</a>
+      </br>
     <script>
         var table = document.getElementById('table');
         var selected = table.getElementsByClassName('selected');
@@ -54,82 +55,24 @@
             var element = document.querySelectorAll('.selected');
             
             if(element[0]!== undefined){ //it must be selected
-              alert(element[0].children[0].firstChild.data);
+
+              //alert(element[0].children[0].firstChild.data);
               var id_est = (element[0].children[0].firstChild.data);
               console.log(id_est)
 
               $.ajax({
                 type: "POST",
-                url: "/procesando",
+                url: "/escogerEstudiante",
                 data: JSON.stringify(id_est),
                 contentType: "application/json",
                 dataType: 'json',
-                success: function(result) {
+                /*success: function(result) {
                   console.log("Result:");
                   console.log(result);
-                } 
+                } */
               });
 
-              /*
-              const URL = 'http://127.0.0.1:5000/procesando'
-              const xhr = new XMLHttpRequest();
-              sender = JSON.stringify([
-                [1, 2, 3],
-                [4, 5, 6],
-                [7, 8, 9]
-              ])
-              xhr.open('POST', URL);
-              xhr.send(sender);
-*/
-
-              /*
-              $.ajax({
-                url: '{{ url_for('procesando') }}',
-                type: 'POST',
-                data: {
-                    name: id_est
-                },
-                success: function (response) {
-                },
-                error: function (response) {
-                }
-            });*/
-    
-
-              /*
-              $.post( "/procesando", {
-                javascript_data: id_est 
-              });
-*/
-              //$.get( "/procesando/<javascript_data>" );
-
-              /*
-              $.ajax(
-                {
-                    type:'POST',
-                    contentType:'application/json;charset-utf-08',
-                    dataType:'json',
-                    url:'http://127.0.0.1:5000/procesando',
-                    success:function (data) {
-                        var reply=data.reply;
-                        console.log(reply);
-                        if (reply=="success")
-                        {
-                            return;
-                        }
-                        else
-                            {
-                            alert("some error ocured in session agent")
-                            }
-
-                    }
-                }
-            );*/
-                            
-              //console.log("{{estudiantes}}");
-              //console.log("{{estudiantesJSON}}");
-              
-                            
+                                          
             }
 
         }

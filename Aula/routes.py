@@ -1,12 +1,13 @@
 from flask import render_template, url_for, flash, redirect, request
 from flask.json import jsonify
-from Aula import app, db, bcrypt, id_estudiante
+from Aula import app, db, bcrypt, idEstudiante
 from Aula.forms import LoginForm, RegistrarEstudianteForm, RegistrarDocenteForm
 from Aula.models import Estudiante, Docente, Encoder
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import date
 import json
 from flask_cors import cross_origin
+
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -32,67 +33,48 @@ def home():
 def escogerEstudiante():
     
     estudiantes = Estudiante.query.all()
-    estudiantesJSON = (Encoder().encode(est) for est in estudiantes)
+    #estudiantesJSON = (Encoder().encode(est) for est in estudiantes)
     
-    """
-    if ( request.args.get('value') != None):
-        name=request.args.get('value')
-        print('name',name)
-        return jsonify({'reply':'success'})
-    """
-    #estudiantesJSON = json.dumps(estudiantes)
-    
-    #print(estudiantes[0].id)
-    
-    """
-    if request.method == 'post':
-        js_variable = request.form
-        print(js_variable)
-"""
-    
-    return render_template('escogerEstudiante.html', title='Estudiante', estudiantes=estudiantes, estudiantesJSON=estudiantesJSON)
-
-
-#@cross_origin(origin='localhost',headers=['Content- Type','Authorization'], supports_credentials=True)
-@app.route("/procesando", methods=['GET','POST'])
-def procesando():
     
     if request.method == "POST":
         qtc_data =  request.get_json()
         print(type(qtc_data))
         idEst = int(qtc_data)
         print(type(idEst))
+        global estu 
         estu = Estudiante.query.filter_by(id=idEst).first()
+        global idEstudiante
+        idEstudiante = estu
+        #print(id_estudiante)
+        #return redirect(url_for('juegos'))
+        #return qtc_data
+    
+    
         
-        print(estu)
-        return qtc_data
+    return render_template('escogerEstudiante.html', title='Estudiante', estudiantes=estudiantes)
+
+
+
+@app.route("/escogerJuego", methods=['GET','POST'])
+def escogerJuego():
     
-    #information = request.data
-    
-    
-    
-    #name = request.form.get('name')
-    
-    """
-    jsdata = request.form['javascript_data']
-    print(jsdata)
-    
-    
-    name=request.args.get('value')
-    print('name',name)
-    return jsonify({'reply':'success'})
-    """
-    
-@app.route("/about")
-def about():
-    return render_template('about.html', title='About')
+    if idEstudiante:
+        flash(f'Estudiante {idEstudiante.nombre} {idEstudiante.apellido}!', 'success')
+        return render_template('escogerJuego.html', title='Juego')
+    else:     
+            
+        flash(f'Por favor escoga un estudiante para continuar', 'danger')
+        return redirect(url_for('escogerEstudiante'))
+
+
+
 
 
 @app.route("/registrarDocente", methods=['GET', 'POST'])
 def registrarDocente():
     
     if current_user.is_authenticated:
-            return redirect(url_for('escogerEstudiante'))
+        return redirect(url_for('escogerEstudiante'))
     form = RegistrarDocenteForm()
     
     if form.is_submitted():
@@ -131,3 +113,7 @@ def juegos():
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+@app.route("/about")
+def about():
+    return render_template('about.html', title='About')

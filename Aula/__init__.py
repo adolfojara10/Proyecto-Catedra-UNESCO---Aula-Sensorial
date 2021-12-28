@@ -17,7 +17,6 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'home'
 login_manager.login_message_category = 'info'
 
-global id_estudiante
-id_estudiante = 0
-
+global idEstudiante
+idEstudiante = None
 from Aula import routes

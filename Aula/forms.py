@@ -37,6 +37,7 @@ class RegistrarEstudianteForm(FlaskForm):
     genero = SelectField('Género',
                            validators=[DataRequired()], choices=[("Masculino", "Masculino"), ("Femenino", "Femenino")])
     fechaNacimiento = DateField('Fecha de Nacimiento', validators=[DataRequired()], format="%d-%m-%y")
+    anioBasica = IntegerField("Año de Básica", validators=[DataRequired()])
     diagnostico = StringField('Diagnostico')
     residencia = StringField('Residencia',
                            validators=[DataRequired(), Length(min=2, max=150)])
