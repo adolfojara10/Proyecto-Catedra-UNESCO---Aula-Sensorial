@@ -1,8 +1,8 @@
 from flask import render_template, url_for, flash, redirect, request
 from flask.json import jsonify
 from Aula import app, db, bcrypt, idEstudiante
-from Aula.forms import LoginForm, RegistrarEstudianteForm, RegistrarDocenteForm
-from Aula.models import Estudiante, Docente
+from Aula.forms import LoginForm, RegistrarEstudianteForm, RegistrarDocenteForm, RegistrarJuego
+from Aula.models import Estudiante, Docente, Juego, Categoria, Reporte
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import date
 import json
@@ -105,14 +105,60 @@ def registrarEstudiante():
     return render_template('registrarEstudiante.html', title='Register', form=form)
 
 
-@app.route("/juegos")
+
+@app.route("/juegos",  methods=['GET', 'POST'])
 def juegos():
-    return render_template('juegos.html', title='Juegos')
+    
+    form = RegistrarJuego()
+    
+    if form.validate_on_submit():
+        
+        if form.categorias.data != None:
+            categorias = form.categorias.data 
+            categorias = categorias.split(',')
+            
+            juego = Juego(nombre=form.nombre.data)
+            
+            db.session.add(juego)
+            db.session.commit()
+            juego = Juego.query.filter_by(nombre=juego.nombre).first()
+            
+            for cat in categorias:
+                
+                catego = Categoria(nombre=cat, juego_id=juego.id)
+                
+                db.session.add(catego)
+                
+            db.session.commit()
+            
+            flash(f'Juego: {juego.nombre} creado con exito con sus categorias!', 'success')
+            
+            print(juego)
+            
+            return redirect(url_for('escogerJuego'))
+            
+        else:
+            
+            juego = Juego(nombre=form.nombre.data)
+            
+            db.session.add(juego)
+            db.session.commit()
+            
+            flash('Juego: {juego.nombre} creado con exito!', 'success')
+            
+            print(juego)
+            
+            return redirect(url_for('escogerJuego'))
+            
+    
+    return render_template('RegistrarJuego.html', title='Registrar Juegos', form=form)
+
 
 @app.route("/logout")
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
 
 @app.route("/about")
 def about():

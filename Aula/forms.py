@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, DateField, IntegerField, SelectField
+from wtforms import StringField, PasswordField, SubmitField, DateField, IntegerField, SelectField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from Aula.models import Docente, Estudiante
 
@@ -42,7 +42,7 @@ class RegistrarEstudianteForm(FlaskForm):
     residencia = StringField('Residencia',
                            validators=[DataRequired(), Length(min=2, max=150)])
     carnet = SelectField('Carnet', choices=[("Si", "SI"), ("No", "NO")])
-    porcentajeDiscapacidad = IntegerField("Procentaje de Discapacidad")
+    porcentajeDiscapacidad = IntegerField("Procentaje de Discapacidad", default=0)
     escolarizado = SelectField('Escolarizado',
                            validators=[DataRequired()], choices=[("Si", "SI"), ("No", "NO")])
     
@@ -55,3 +55,14 @@ class LoginForm(FlaskForm):
     password = PasswordField('Contraseña', validators=[DataRequired()])
     
     submit = SubmitField('Iniciar Sesion')
+    
+
+class RegistrarJuego(FlaskForm):
+    
+    nombre = StringField('Nombre del Juego',
+                        validators=[DataRequired()])
+    
+    categorias = TextAreaField('Categorias. Ej: Dado,Luces(Separar con una coma y sin espacios)', description='En caso de que sean varias categorias, separarlar por una coma. Ej: Dado, Luces')
+    
+    submit = SubmitField('Crear Juego')
+    
