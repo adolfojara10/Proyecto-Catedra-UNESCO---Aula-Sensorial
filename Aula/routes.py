@@ -96,7 +96,7 @@ def registrarEstudiante():
     if form.is_submitted():
         
         estu = Estudiante(nombre=form.nombre.data, apellido=form.apellido.data, genero=form.genero.data, fechaNacimiento=date.today(),
-                      diagnostico=form.diagnostico.data, residencia=form.residencia.data, carnet=form.carnet.data,
+                      diagnostico=form.diagnostico.data,  anioBasica=form.anioBasica.data, residencia=form.residencia.data, carnet=form.carnet.data,
                       porcentajeDiscapacidad=form.porcentajeDiscapacidad.data, escolarizado=form.escolarizado.data)
         db.session.add(estu)
         db.session.commit()

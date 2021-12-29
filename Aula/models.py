@@ -33,6 +33,7 @@ class Estudiante(db.Model):
     genero = db.Column(db.String(15), nullable=False)
     fechaNacimiento = db.Column(db.Date, nullable=False)
     diagnostico = db.Column(db.String(125), nullable=True)
+    anioBasica = db.Column(db.Integer, nullable=False)
     residencia = db.Column(db.String(150), nullable=False)
     carnet = db.Column(db.String(2), nullable=False)
     porcentajeDiscapacidad = db.Column(db.Integer, nullable=True)
