@@ -69,7 +69,7 @@ class Categoria(db.Model):
     
     def __repr__(self) -> str:
     
-        return f"Juego('{self.nombre}','{self.juegoId.nombre}')"
+        return f"Categoria('{self.nombre}','{self.juego_id}')"
     
     
     

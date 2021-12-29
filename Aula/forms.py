@@ -62,7 +62,7 @@ class RegistrarJuego(FlaskForm):
     nombre = StringField('Nombre del Juego',
                         validators=[DataRequired()])
     
-    categorias = TextAreaField('Categorias. Ej: Dado,Luces(Separar con una coma y sin espacios)', description='En caso de que sean varias categorias, separarlar por una coma. Ej: Dado, Luces')
+    categorias = TextAreaField('Categorias. Ej: Dado,Luces(Separar con una coma y sin espacios)', description='En caso de que sean varias categorias, separarlar por una coma. Ej: Dado, Luces', default="-")
     
     submit = SubmitField('Crear Juego')
     

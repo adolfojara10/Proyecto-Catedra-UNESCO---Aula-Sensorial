@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from flask.json import jsonify
-from Aula import app, db, bcrypt, idEstudiante
+from Aula import app, db, bcrypt, idEstudiante, idCategoria
 from Aula.forms import LoginForm, RegistrarEstudianteForm, RegistrarDocenteForm, RegistrarJuego
 from Aula.models import Estudiante, Docente, Juego, Categoria, Reporte
 from flask_login import login_user, current_user, logout_user, login_required
@@ -38,9 +38,9 @@ def escogerEstudiante():
     
     if request.method == "POST":
         qtc_data =  request.get_json()
-        print(type(qtc_data))
+        #print(type(qtc_data))
         idEst = int(qtc_data)
-        print(type(idEst))
+        #print(type(idEst))
         global estu 
         estu = Estudiante.query.filter_by(id=idEst).first()
         global idEstudiante
@@ -55,7 +55,7 @@ def escogerEstudiante():
 
 
 
-@app.route("/escogerJuego", methods=['GET','POST'])
+@app.route("/escogerJuego", methods=['GET', 'POST', 'OPTIONS'])
 def escogerJuego():
     
     if idEstudiante:
@@ -65,6 +65,39 @@ def escogerJuego():
         
         print(juegos)
         
+        '''
+        print(juegos)
+        if request.method == "POST":
+            qtc_data =  request.get_json()
+            print(type(qtc_data))
+            
+            global idCategoria
+            
+            if len(qtc_data) > 2:
+                
+                global cat 
+                cat = Categoria.query.filter_by(nombre=qtc_data).first()
+
+                idCategoria = cat
+                
+                print(idCategoria)
+                
+                return redirect(url_for('juegos'))
+            
+            else:
+                
+                idJuego = int(qtc_data)
+                
+                global juego 
+                juego = Juego.query.filter_by(id=idJuego).first()
+                                
+                idCategoria = juego
+                
+                print(idCategoria)
+                
+                return redirect(url_for('juegos'))
+                '''
+                    
         return render_template('escogerJuego.html', title='Juego', juegos=juegos)
     
     else:     
@@ -74,7 +107,51 @@ def escogerJuego():
 
 
 
-
+@app.route("/procesarJuego", methods=['GET', 'POST', 'OPTIONS'])
+@cross_origin(origin='localhost',headers=['Content- Type','Authorization'], supports_credentials=True)
+def procesarJuego():
+           
+    if request.method == "POST":
+       
+        qtc_data = request.get_json()
+        #print(qtc_data) 
+        
+        
+        cat = Categoria.query.filter_by(nombre=qtc_data)
+        print(cat)
+        global idCategoria
+        idCategoria = cat
+                
+        
+        
+        
+        '''
+        if len(qtc_data) > 2:
+            
+            print(qtc_data)
+            global cat 
+            cat = Categoria.query.filter_by(nombre=qtc_data).first()
+            idCategoria = cat
+                
+            print(type(idCategoria), cat)
+                
+            return redirect(url_for('juegos'))
+            
+        else:
+                
+            print(qtc_data)
+            idJuego = int(qtc_data)
+                
+            global juego 
+            juego = Juego.query.filter_by(id=idJuego).first()
+                                
+            idCategoria = juego
+                
+            print(idCategoria)
+                
+            return redirect(url_for('juegos'))
+               '''     
+    
 
 @app.route("/registrarDocente", methods=['GET', 'POST'])
 def registrarDocente():
@@ -119,8 +196,10 @@ def juegos():
     
     if form.validate_on_submit():
         
-        if form.categorias.data != None:
-            categorias = form.categorias.data 
+        categorias = form.categorias.data
+        
+        if categorias != "-":
+            
             categorias = categorias.split(',')
             
             juego = Juego(nombre=form.nombre.data)
@@ -150,7 +229,7 @@ def juegos():
             db.session.add(juego)
             db.session.commit()
             
-            flash('Juego: {juego.nombre} creado con exito!', 'success')
+            flash(f'Juego: {juego.nombre} creado con exito!', 'success')
             
             print(juego)
             
