@@ -48,7 +48,7 @@ class Estudiante(db.Model):
 class Juego(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(75), nullable=False)
+    nombre = db.Column(db.String(75), nullable=False, unique=True)
     
     categorias = db.relationship('Categoria', backref='juegos', lazy=True)
     reportes = db.relationship('Reporte')

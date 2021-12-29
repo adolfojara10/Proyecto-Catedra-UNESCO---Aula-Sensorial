@@ -60,7 +60,13 @@ def escogerJuego():
     
     if idEstudiante:
         flash(f'Estudiante {idEstudiante.nombre} {idEstudiante.apellido}!', 'success')
-        return render_template('escogerJuego.html', title='Juego')
+        
+        juegos = Juego.query.all()
+        
+        print(juegos)
+        
+        return render_template('escogerJuego.html', title='Juego', juegos=juegos)
+    
     else:     
             
         flash(f'Por favor escoga un estudiante para continuar', 'danger')
