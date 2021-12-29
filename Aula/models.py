@@ -1,7 +1,8 @@
 from datetime import date
+from sqlalchemy.orm import backref
 from Aula import db, login_manager
 from flask_login import UserMixin 
-from json import JSONEncoder
+
 
 @login_manager.user_loader
 def load_user(docente_id):
@@ -18,7 +19,7 @@ class Docente(db.Model, UserMixin):
     nombreUsuario = db.Column(db.String(75), unique=True, nullable=False)
     contrasenia = db.Column(db.String(60), nullable=False)
     
-    #reportes = db.relationship('Reporte', backref='tutor', lazy=True)
+    reportes = db.relationship('Reporte', backref='tutor', lazy=True)
     
     def __repr__(self) -> str:
         return f"Docente('{self.nombre}', '{self.apellido}', '{self.nombreUsuario}')"
@@ -37,11 +38,51 @@ class Estudiante(db.Model):
     porcentajeDiscapacidad = db.Column(db.Integer, nullable=True)
     escolarizado = db.Column(db.String(2), nullable=False)
     
+    reportes = db.relationship('Reporte', backref='estudiante', lazy=True)
+    
     def __repr__(self) -> str:
         return f"Estudiante('{self.nombre}', '{self.apellido}', '{self.fechaNacimiento}', '{self.residencia}', '{self.diagnostico}')"
 
 
-class Encoder(JSONEncoder):
+class Juego(db.Model):
     
-    def default(self ,o):
-        return o.__dict__
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(75), nullable=False)
+    
+    categorias = db.relationship('Categoria', backref='juegos', lazy=True)
+    reportes = db.relationship('Reporte')
+    
+    
+    def __repr__(self) -> str:
+        return f"Juego('{self.nombre}')"
+
+
+class Categoria(db.Model):
+    
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(75), nullable=False)
+    
+    juego_id = db.Column(db.Integer, db.ForeignKey('juego.id'), nullable=False)
+    reportes = db.relationship('Reporte')
+    
+    
+    def __repr__(self) -> str:
+    
+        return f"Juego('{self.nombre}','{self.juegoId.nombre}')"
+    
+    
+    
+class Reporte(db.Model):
+    
+    id = db.Column(db.Integer, primary_key=True)
+    calificacion = db.Column(db.String(2), nullable=False)
+    fecha = db.Column(db.Date, nullable=False, default=date.today())
+    
+    docente_id = db.Column(db.Integer, db.ForeignKey('docente.id'), nullable=False)
+    estudiante_id = db.Column(db.Integer, db.ForeignKey('estudiante.id'), nullable=False)
+    
+    juego_id = db.Column(db.Integer, db.ForeignKey('juego.id'), nullable=False)
+    categoria_id = db.Column(db.Integer, db.ForeignKey('categoria.id'), nullable=False)
+    
+    def __repr__(self) -> str:
+        return f"Docente('{self.docente_id.nombre}', '{self.estudiante_id.nombre}', '{self.juego_id.nombre}', '{self.calificacion}')"

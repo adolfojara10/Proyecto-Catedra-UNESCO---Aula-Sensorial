@@ -2,7 +2,7 @@ from flask import render_template, url_for, flash, redirect, request
 from flask.json import jsonify
 from Aula import app, db, bcrypt, idEstudiante
 from Aula.forms import LoginForm, RegistrarEstudianteForm, RegistrarDocenteForm
-from Aula.models import Estudiante, Docente, Encoder
+from Aula.models import Estudiante, Docente
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import date
 import json
