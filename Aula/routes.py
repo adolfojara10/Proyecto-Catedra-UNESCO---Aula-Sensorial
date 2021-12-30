@@ -114,18 +114,17 @@ def procesarJuego():
     if request.method == "POST":
        
         qtc_data = request.get_json()
-        #print(qtc_data) 
         
         
+        '''
         cat = Categoria.query.filter_by(nombre=qtc_data)
         print(cat)
         global idCategoria
         idCategoria = cat
-                
-        
-        
-        
         '''
+        
+        global idCategoria
+        
         if len(qtc_data) > 2:
             
             print(qtc_data)
@@ -133,7 +132,7 @@ def procesarJuego():
             cat = Categoria.query.filter_by(nombre=qtc_data).first()
             idCategoria = cat
                 
-            print(type(idCategoria), cat)
+            print(idCategoria)
                 
             return redirect(url_for('juegos'))
             
@@ -150,7 +149,10 @@ def procesarJuego():
             print(idCategoria)
                 
             return redirect(url_for('juegos'))
-               '''     
+        
+        
+    return render_template('about.html', title='Juego')
+                  
     
 
 @app.route("/registrarDocente", methods=['GET', 'POST'])

@@ -31,7 +31,7 @@
 
                 <th scope="row">{{ juego.id }}</th>
                 <td>{{ juego.nombre }}</td>
-                <td>"------"</td>
+                <td>-</td>
 
             </tr>
 
@@ -61,12 +61,13 @@
 
         if (element[0] !== undefined) { //it must be selected
 
-            alert(element[0].children[2].firstChild.data);
+            //alert(element[0].children[2].firstChild.data);
 
-            if (element[0].children[2].firstChild.data) {
+            if (element[0].children[2].firstChild.data.length > 1) {
                 var nombre_categoria = (element[0].children[2].firstChild.data);
                 console.log(nombre_categoria)
 
+                
                 $.ajax({
                     type: "POST",
                     url: "/procesarJuego",
@@ -81,8 +82,11 @@
 
 
             } else {
-                var id_juego = (element[0].children[0].firstChild.data);
+
+                var id_juego = element[0].children[0].firstChild.data;
                 console.log(id_juego)
+
+                alert(id_juego);
 
                 $.ajax({
                     type: "POST",
