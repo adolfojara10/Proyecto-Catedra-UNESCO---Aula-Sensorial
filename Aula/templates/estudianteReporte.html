@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <h1>Reportes</h1>
+    <!--
+    <form class="d-flex">
+      <input class="form-control me-2" type="search" placeholder="Buscar, Ej: Sebastian Rodriguez" aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Buscar</button>
+    </form>
+    -->
+
+    <table id="table" class="table table-hover"  data-toggle="table" data-pagination="true" data-search="true">
+          <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Fecha Nacimiento</th>
+            <th scope="col">Año Basica</th>
+            <th scope="col">Diagnostico</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for estu in estudiantes %}
+              
+                <tr>
+                  
+                    <th scope="row">{{ estu.id }}</th>
+                    <td>{{ estu.nombre }}</td>
+                    <td>{{ estu.apellido }}</td>
+                    <td>{{ estu.fechaNacimiento }}</td>
+                    <td>{{ estu.anioBasica }}</td>
+                    <td>{{ estu.diagnostico }}</td>
+                  
+                </tr>
+              
+            {% endfor %}
+        </tbody>
+      </table>
+      <br>
+      <a class="btn btn-primary" href="{{ url_for('generarReporte') }}" role="button" onclick="fnselect()">Continuar</a>
+      </br>
+    <script>
+        var table = document.getElementById('table');
+        var selected = table.getElementsByClassName('selected');
+        table.onclick = highlight;
+    
+        function highlight(e) {
+            if (selected[0]) selected[0].className = '';
+            e.target.parentNode.className = 'selected';
+        }
+        
+        function fnselect(){
+            
+            var element = document.querySelectorAll('.selected');
+            
+            if(element[0]!== undefined){ //it must be selected
+
+              alert("Ha escogido al estudiante: " + element[0].children[1].firstChild.data + " " + element[0].children[2].firstChild.data + ". ¿Desea continuar?");
+              var id_est = (element[0].children[0].firstChild.data);
+              console.log(id_est)
+
+              $.ajax({
+                type: "POST",
+                url: "/procesarEstudianteReporte",
+                data: JSON.stringify(id_est),
+                contentType: "application/json",
+                dataType: 'json',
+                /*success: function(result) {
+                  console.log("Result:");
+                  console.log(result);
+                } */
+              });
+
+                                          
+            }
+
+        }
+        
+  </script>
+
+  <!--
+  <div>
+    {% for estu in estudiantes %}
+      {% if estu.id == element %}
+        <p>{{estu.nombre}}</p>
+      {% endif %}
+    {% endfor %}
+  </div>
+  -->
+{% endblock content %}

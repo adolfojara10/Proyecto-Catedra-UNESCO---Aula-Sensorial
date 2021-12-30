@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>empezar juego Page</h1>
+    <div class="content-section">
+        <h1 class="display-7">Estudiante: </h1>
+
+        <figure>
+            <blockquote class="blockquote">
+              <p>{{ estudiante.nombre}} {{ estudiante.apellido}}</p>
+            </blockquote>
+            
+          </figure>
+  
+
+          <h1 class="display-7">Juego: </h1>
+
+          <figure>
+              <blockquote class="blockquote">
+                <p>
+                    {% if bandera %}
+                    {{juego.juego_id.nombre}} {{juego.nombre}} 
+                {% else %}
+                    {{juego.nombre}} 
+                {% endif %}
+            </p>
+              </blockquote>
+              
+            </figure>
+
+            <br>
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group me-2 " role="group" aria-label="First group">
+                  <button type="button" class="btn btn-success btn-lg">Lo logró</button>
+                </div>
+                <div class="btn-group me-2" role="group" aria-label="Second group">
+                  <button type="button" class="btn btn-danger btn-lg">No lo logró</button>
+                </div>
+                
+              </div>
+        </br>
+    
+</div>
+
+
+
+
+
+{% endblock content %}

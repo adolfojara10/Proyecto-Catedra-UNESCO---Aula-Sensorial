@@ -152,7 +152,74 @@ def procesarJuego():
         
         
     return render_template('about.html', title='Juego')
-                  
+
+
+@app.route("/empezarJuego", methods=['GET', 'POST', 'OPTIONS'])
+def empezarJuego():
+    
+    if idEstudiante and idCategoria:
+       # flash(f'Estudiante {idEstudiante.nombre} {idEstudiante.apellido}!', 'success')
+        #flash(f'Estudiante {idEstudiante.nombre} {idEstudiante.apellido}!', 'success')
+        
+        juego = idCategoria
+        estudiante = idEstudiante
+        
+        if isinstance(juego,Categoria):
+            bandera = True 
+        else: 
+            bandera = False 
+        
+                                          
+        return render_template('empezarJuego.html', title='Juego', juego=juego, estudiante=estudiante, bandera=bandera)
+    
+    else:     
+            
+        flash(f'Por favor escoga un juego para empezar', 'danger')
+        return redirect(url_for('escogerJuego'))
+
+        
+        
+@app.route("/estudianteReporte", methods=['GET', 'POST'])          
+def estudianteReporte():
+
+    estudiantes = Estudiante.query.all()
+    
+    return render_template('estudianteReporte.html', title='Reportes', estudiantes=estudiantes)
+
+
+@app.route("/procesarEstudianteReporte", methods=['GET', 'POST', 'OPTIONS'])
+def procesarEstudianteReporte():
+    
+    if request.method == "POST":
+        qtc_data =  request.get_json()
+        #print(type(qtc_data))
+        idEst = int(qtc_data)
+        #print(type(idEst))
+       
+        estu = Estudiante.query.filter_by(id=idEst).first()
+        global idEstudiante
+        
+        idEstudiante = estu
+        
+        print(estu)
+        #return redirect(url_for('juegos'))
+        #return qtc_data 
+        
+    print(idEstudiante)
+    
+@app.route("/generarReporte", methods=['GET', 'POST', 'OPTIONS'])
+def generarReporte():
+    
+    if idEstudiante:
+        flash(f'Estudiante {idEstudiante.nombre} {idEstudiante.apellido}!', 'success')
+        
+
+        return render_template('generarReporte.html', title='Reporte')
+    
+    else:     
+            
+        flash(f'Por favor escoga un estudiante para continuar', 'danger')
+        return redirect(url_for('estudianteReporte'))
     
 
 @app.route("/registrarDocente", methods=['GET', 'POST'])
