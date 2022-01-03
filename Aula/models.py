@@ -83,7 +83,7 @@ class Reporte(db.Model):
     estudiante_id = db.Column(db.Integer, db.ForeignKey('estudiante.id'), nullable=False)
     
     juego_id = db.Column(db.Integer, db.ForeignKey('juego.id'), nullable=False)
-    categoria_id = db.Column(db.Integer, db.ForeignKey('categoria.id'), nullable=False)
+    categoria_id = db.Column(db.Integer, db.ForeignKey('categoria.id'), nullable=True)
     
     def __repr__(self) -> str:
-        return f"Docente('{self.docente_id.nombre}', '{self.estudiante_id.nombre}', '{self.juego_id.nombre}', '{self.calificacion}')"
+        return f"Reporte('{self.docente_id}', '{self.estudiante_id}', '{self.juego_id}', '{self.calificacion}')"

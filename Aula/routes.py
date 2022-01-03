@@ -164,19 +164,61 @@ def empezarJuego():
         juego = idCategoria
         estudiante = idEstudiante
         
+        juegoNombre = None
+                
+        bandera = True
+        
         if isinstance(juego,Categoria):
             bandera = True 
+            juegoNombre = Juego.query.filter_by(id=idCategoria.juego_id).first()
+            print(bandera)
+            
         else: 
             bandera = False 
+            print(bandera)
         
                                           
-        return render_template('empezarJuego.html', title='Juego', juego=juego, estudiante=estudiante, bandera=bandera)
+        return render_template('empezarJuego.html', title='Juego', juego=juego, estudiante=estudiante, bandera=bandera, juegoNombre=juegoNombre)
     
     else:     
             
         flash(f'Por favor escoga un juego para empezar', 'danger')
         return redirect(url_for('escogerJuego'))
 
+
+@app.route("/procesarReporteJuego", methods=['GET', 'POST', 'OPTIONS'])
+def procesarReporteJuego():
+    
+    if request.method == "POST":
+           
+        calificacion = request.get_json()
+        
+        global idCategoria, idEstudiante
+        
+        if isinstance(idCategoria, Categoria):
+            
+            juego = Juego.query.filter_by(id=idCategoria.juego_id).first()
+            
+            print(juego)
+            
+            reporte = Reporte(calificacion=calificacion, docente_id=current_user.id, estudiante_id=idEstudiante.id, 
+                          juego_id=juego.id, categoria_id=idCategoria.id)
+            
+            print(reporte, "categoria")
+        
+        else:
+            reporte = Reporte(calificacion=calificacion, docente_id=current_user.id, estudiante_id=idEstudiante.id, 
+                          juego_id=idCategoria.id, categoria_id=None)
+            
+            print(reporte)
+                    
+        return "exito"
+        
+        db.session.add(reporte)
+        db.session.commit()
+        
+    
+    
         
         
 @app.route("/estudianteReporte", methods=['GET', 'POST'])          

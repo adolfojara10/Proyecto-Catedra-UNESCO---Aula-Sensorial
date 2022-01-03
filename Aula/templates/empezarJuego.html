@@ -17,8 +17,8 @@
           <figure>
               <blockquote class="blockquote">
                 <p>
-                    {% if bandera %}
-                    {{juego.juego_id.nombre}} {{juego.nombre}} 
+                {% if bandera %}
+                    {{juegoNombre.nombre}} - {{juego.nombre}} 
                 {% else %}
                     {{juego.nombre}} 
                 {% endif %}
@@ -27,21 +27,77 @@
               
             </figure>
 
+            <h1 id"labelCalificacion" class="display-7">Calificación: </h1>
+
             <br>
             <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                 <div class="btn-group me-2 " role="group" aria-label="First group">
-                  <button type="button" class="btn btn-success btn-lg">Lo logró</button>
+                  <button id="boton1" type="button" class="btn btn-success btn-lg" onclick="si()">Lo logró</button>
                 </div>
                 <div class="btn-group me-2" role="group" aria-label="Second group">
-                  <button type="button" class="btn btn-danger btn-lg">No lo logró</button>
+                  <button id="boton2" type="button" class="btn btn-danger btn-lg" onClick="no()">No lo logró</button>
                 </div>
-                
+                <div id="a" class="btn-group me-2" role="group" aria-label="Third group">
+                  
+                </div>
               </div>
         </br>
     
 </div>
 
+<script>
 
+  function si() {
+    var logro = "SI"
+    var newButton = '<button type="button" class="btn btn-info btn-lg">Mostrar Reportes</button>'
+    document.getElementById("a").innerHTML=newButton;
+    document.getElementById("boton1").style.display = "none";
+    document.getElementById("boton2").style.display = "none";
+    //document.getElementById("labelCalificacion").style.display = "none";
+
+
+      
+      $.ajax({
+        type: "POST",
+        url: "/procesarReporteJuego",
+        data: JSON.stringify(logro),
+        contentType: "application/json",
+        dataType: 'json',
+        /*
+        success: function(result) {
+        console.log("Result:");
+        console.log(result);
+        } */
+      });
+  }
+
+  function no() {
+    var logro = "NO"
+    var newButton = '<button type="button" class="btn btn-info btn-lg">Mostrar Reportes</button>';
+    
+    document.getElementById("a").innerHTML=newButton;
+    document.getElementById("boton1").style.display = "none";
+    document.getElementById("boton2").style.display = "none";
+    //document.getElementById("labelCalificacion").style.display = "none";
+
+    $.ajax({
+      type: "POST",
+      url: "/procesarReporteJuego",
+      data: JSON.stringify(logro),
+      contentType: "application/json",
+      dataType: 'json',
+      /*
+      success: function(result) {
+      console.log("Result:");
+      console.log(result);
+      } */
+    });
+    
+
+  }
+
+
+</script>
 
 
 
