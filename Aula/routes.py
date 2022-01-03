@@ -59,6 +59,8 @@ def escogerEstudiante():
 @app.route("/escogerJuego", methods=['GET', 'POST', 'OPTIONS'])
 def escogerJuego():
     
+    
+    
     if idEstudiante:
         flash(f'Estudiante {idEstudiante.nombre} {idEstudiante.apellido}!', 'success')
         
@@ -251,17 +253,31 @@ def procesarEstudianteReporte():
         idEstudiante = estu
         
         print(estu)
-        #return redirect(url_for('juegos'))
-        #return qtc_data 
         
-    print(idEstudiante)
+        #return qtc_data 
+    
+    return redirect(url_for('generarReporte'))  
+
+    
     
     
 @app.route("/generarReporte", methods=['GET', 'POST', 'OPTIONS'])
 def generarReporte():
     
+    if request.method == "POST":
+        qtc_data =  request.get_json()
+        #print(type(qtc_data))
+        idEst = int(qtc_data)
+        #print(type(idEst))
+       
+        estu = Estudiante.query.filter_by(id=idEst).first()
+        global idEstudiante
+        
+        idEstudiante = estu
+        
+        
     if idEstudiante:
-        flash(f'Estudiante {idEstudiante.nombre} {idEstudiante.apellido}!', 'success')
+        #flash(f'Estudiante {idEstudiante.nombre} {idEstudiante.apellido}!', 'success')
         
         reportes = Reporte.query.filter_by(estudiante_id=idEstudiante.id)
         

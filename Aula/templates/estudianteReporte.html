@@ -38,7 +38,8 @@
         </tbody>
       </table>
       <br>
-      <a class="btn btn-primary" href="{{ url_for('generarReporte') }}" role="button" onclick="fnselect()">Continuar</a>
+      
+      <a class="btn btn-primary" role="button" onclick="fnselect()" href="{{ url_for('generarReporte') }}">Continuar</a>
       </br>
     <script>
         var table = document.getElementById('table');
@@ -62,7 +63,7 @@
 
               $.ajax({
                 type: "POST",
-                url: "/procesarEstudianteReporte",
+                url: "/generarReporte",
                 data: JSON.stringify(id_est),
                 contentType: "application/json",
                 dataType: 'json',
