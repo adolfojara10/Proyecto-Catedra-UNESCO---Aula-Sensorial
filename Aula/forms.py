@@ -9,7 +9,7 @@ class RegistrarDocenteForm(FlaskForm):
                            validators=[DataRequired(), Length(min=2, max=75)])
     apellido = StringField('Apellido',
                            validators=[DataRequired(), Length(min=2, max=75)])
-    fechaNacimiento = DateField('Fecha de Nacimiento', validators=[DataRequired()], format="%d-%m-%y")
+    fechaNacimiento = DateField('Fecha de Nacimiento', validators=[DataRequired()])
     especialidad = StringField('Especialidad')
     anioBasica = IntegerField("Año de Básica", validators=[DataRequired()])
     
@@ -36,7 +36,7 @@ class RegistrarEstudianteForm(FlaskForm):
                            validators=[DataRequired(), Length(min=2, max=75)])
     genero = SelectField('Género',
                            validators=[DataRequired()], choices=[("Masculino", "Masculino"), ("Femenino", "Femenino")])
-    fechaNacimiento = DateField('Fecha de Nacimiento', validators=[DataRequired()], format="%d-%m-%y")
+    fechaNacimiento = DateField('Fecha de Nacimiento', validators=[DataRequired()])
     anioBasica = IntegerField("Año de Básica", validators=[DataRequired()])
     diagnostico = StringField('Diagnostico')
     residencia = StringField('Residencia',

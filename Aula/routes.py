@@ -298,9 +298,13 @@ def registrarDocente():
     
     if form.is_submitted():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        doc = Docente(nombre=form.nombre.data, apellido=form.apellido.data, fechaNacimiento=date.today(),
-                      especialidad=form.especialidad.data, anioBasica=form.anioBasica.data, nombreUsuario=form.nombreUsuario.data,
-                      contrasenia=hashed_password)
+        doc = Docente(  nombre=form.nombre.data, 
+                        apellido=form.apellido.data, 
+                        fechaNacimiento=form.fechaNacimiento.data,
+                        especialidad=form.especialidad.data, 
+                        anioBasica=form.anioBasica.data, 
+                        nombreUsuario=form.nombreUsuario.data,
+                        contrasenia=hashed_password)
         db.session.add(doc)
         db.session.commit()
         flash('Docente creado con exito', 'success')
@@ -314,9 +318,15 @@ def registrarEstudiante():
     
     if form.is_submitted():
         
-        estu = Estudiante(nombre=form.nombre.data, apellido=form.apellido.data, genero=form.genero.data, fechaNacimiento=date.today(),
-                      diagnostico=form.diagnostico.data,  anioBasica=form.anioBasica.data, residencia=form.residencia.data, carnet=form.carnet.data,
-                      porcentajeDiscapacidad=form.porcentajeDiscapacidad.data, escolarizado=form.escolarizado.data)
+        estu = Estudiante(  nombre=form.nombre.data, 
+                            apellido=form.apellido.data, 
+                            genero=form.genero.data, 
+                            fechaNacimiento=form.fechaNacimiento.data,
+                            diagnostico=form.diagnostico.data,  
+                            anioBasica=form.anioBasica.data, 
+                            residencia=form.residencia.data, carnet=form.carnet.data,
+                            porcentajeDiscapacidad=form.porcentajeDiscapacidad.data, 
+                            escolarizado=form.escolarizado.data)
         db.session.add(estu)
         db.session.commit()
         flash('Estudiante creado con exito', 'success')
