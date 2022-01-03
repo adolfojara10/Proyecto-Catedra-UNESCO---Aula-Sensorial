@@ -50,8 +50,8 @@ class Juego(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(75), nullable=False, unique=True)
     
-    categorias = db.relationship('Categoria', backref='juegos', lazy=True)
-    reportes = db.relationship('Reporte')
+    categorias = db.relationship('Categoria', backref='juego', lazy=True)
+    reportes = db.relationship('Reporte', backref='juego', lazy=True)
     
     
     def __repr__(self) -> str:
@@ -64,7 +64,7 @@ class Categoria(db.Model):
     nombre = db.Column(db.String(75), nullable=False)
     
     juego_id = db.Column(db.Integer, db.ForeignKey('juego.id'), nullable=False)
-    reportes = db.relationship('Reporte')
+    reportes = db.relationship('Reporte', backref='categoria', lazy=True)
     
     
     def __repr__(self) -> str:

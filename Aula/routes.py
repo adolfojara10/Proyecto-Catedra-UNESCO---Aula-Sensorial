@@ -1,4 +1,4 @@
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, sessions, url_for, flash, redirect, request
 from flask.json import jsonify
 from Aula import app, db, bcrypt, idEstudiante, idCategoria
 from Aula.forms import LoginForm, RegistrarEstudianteForm, RegistrarDocenteForm, RegistrarJuego
@@ -8,6 +8,7 @@ from datetime import date
 import json
 from flask_cors import cross_origin
 
+from sqlalchemy.orm import raiseload
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -171,7 +172,10 @@ def empezarJuego():
         if isinstance(juego,Categoria):
             bandera = True 
             juegoNombre = Juego.query.filter_by(id=idCategoria.juego_id).first()
-            print(bandera)
+            
+            #jj = sessions.query(juego).options(raiseload(juego.juego))
+            
+            print(bandera, juego)
             
         else: 
             bandera = False 
@@ -199,6 +203,7 @@ def procesarReporteJuego():
             
             juego = Juego.query.filter_by(id=idCategoria.juego_id).first()
             
+            
             print(juego)
             
             reporte = Reporte(calificacion=calificacion, docente_id=current_user.id, estudiante_id=idEstudiante.id, 
@@ -212,10 +217,12 @@ def procesarReporteJuego():
             
             print(reporte)
                     
-        return "exito"
+        
         
         db.session.add(reporte)
         db.session.commit()
+        
+        return "exito"
         
     
     
@@ -249,14 +256,32 @@ def procesarEstudianteReporte():
         
     print(idEstudiante)
     
+    
 @app.route("/generarReporte", methods=['GET', 'POST', 'OPTIONS'])
 def generarReporte():
     
     if idEstudiante:
         flash(f'Estudiante {idEstudiante.nombre} {idEstudiante.apellido}!', 'success')
         
+        reportes = Reporte.query.filter_by(estudiante_id=idEstudiante.id)
+        
+        listaDocente = []
+        listaJuego = []
+        listaCategoria = []
 
-        return render_template('generarReporte.html', title='Reporte')
+        for rep in reportes:
+            listaDocente.append(Docente.query.filter_by(id=rep.docente_id).first())
+            listaJuego.append(Juego.query.filter_by(id=rep.juego_id).first())
+            
+            if rep.categoria_id:
+                listaCategoria.append(Categoria.query.filter_by(id=rep.categoria_id).first())
+            else:
+                listaCategoria.append("-")
+                
+        longitud = Reporte.query.filter_by(estudiante_id=idEstudiante.id).count()
+
+        return render_template('generarReporte.html', title='Reporte', reportes=reportes, listaDocente=listaDocente,
+                               listaJuego=listaJuego, listaCategoria=listaCategoria, longitud=longitud, estudiante=idEstudiante)
     
     else:     
             

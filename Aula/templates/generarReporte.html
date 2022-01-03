@@ -1,4 +1,46 @@
 {% extends "layout.html" %}
 {% block content %}
     <h1>Reportes Page</h1>
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Docente</th>
+            <th scope="col">Estudiante</th>
+            <th scope="col">Juego</th>
+            <th scope="col">Categoria</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Logro</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+            {% for x in range(longitud) %}
+
+                <tr>
+                    <th scope="row"> {{reportes[x].id }} </th>
+                    <td>{{listaDocente[x].nombre}} {{listaDocente[x].apellido}}</td>
+                    <td>{{estudiante.nombre}} {{estudiante.apellido}}</td>
+                    <td>{{listaJuego[x].nombre}}</td>
+
+                    {% if listaCategoria[x] != "-" %}
+                        <td>{{listaCategoria[x].nombre}}</td>
+                    {% else %}
+                        <td>{{listaCategoria[x]}}</td>
+                    {% endif %}
+
+                    <td>{{reportes[x].fecha}}</td>
+                    <td>{{reportes[x].calificacion}}</td>
+
+                </tr>
+
+
+            {% endfor %}
+          
+        </tbody>
+      </table>
+
+
 {% endblock content %}

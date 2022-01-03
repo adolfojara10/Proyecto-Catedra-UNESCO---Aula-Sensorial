@@ -49,7 +49,7 @@
 
   function si() {
     var logro = "SI"
-    var newButton = '<button type="button" class="btn btn-info btn-lg">Mostrar Reportes</button>'
+    var newButton = '<a class="btn btn-info" href="{{ url_for("generarReporte") }}" role="button" onclick="fnselect()">Mostrar Reportes</a>'
     document.getElementById("a").innerHTML=newButton;
     document.getElementById("boton1").style.display = "none";
     document.getElementById("boton2").style.display = "none";
@@ -73,7 +73,7 @@
 
   function no() {
     var logro = "NO"
-    var newButton = '<button type="button" class="btn btn-info btn-lg">Mostrar Reportes</button>';
+    var newButton = '<a class="btn btn-info" href="{{ url_for("generarReporte") }}" role="button" onclick="fnselect()">Mostrar Reportes</a>'
     
     document.getElementById("a").innerHTML=newButton;
     document.getElementById("boton1").style.display = "none";
