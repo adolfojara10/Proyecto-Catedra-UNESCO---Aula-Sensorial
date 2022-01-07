@@ -83,5 +83,25 @@ class ActualizarDocenteForm(FlaskForm):
                                      validators=[DataRequired(), EqualTo('password')])
     
     submit = SubmitField('Actualizar')
+
+
+
+class ActualizarEstudianteForm(FlaskForm):
+    nombre = StringField('Nombre',
+                           validators=[DataRequired(), Length(min=2, max=75)])
+    apellido = StringField('Apellido',
+                           validators=[DataRequired(), Length(min=2, max=75)])
+    genero = SelectField('Género',
+                           validators=[DataRequired()], choices=[("Masculino", "Masculino"), ("Femenino", "Femenino")])
+    fechaNacimiento = DateField('Fecha de Nacimiento', validators=[DataRequired()])
+    anioBasica = IntegerField("Año de Básica", validators=[DataRequired()])
+    diagnostico = StringField('Diagnostico')
+    residencia = StringField('Residencia',
+                           validators=[DataRequired(), Length(min=2, max=150)])
+    carnet = SelectField('Carnet', choices=[("Si", "SI"), ("No", "NO")])
+    porcentajeDiscapacidad = IntegerField("Procentaje de Discapacidad", default=0)
+    escolarizado = SelectField('Escolarizado',
+                           validators=[DataRequired()], choices=[("Si", "SI"), ("No", "NO")])
     
+    submit = SubmitField('Actualizar')
     

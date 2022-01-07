@@ -42,6 +42,7 @@
                   <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="{{ url_for('registrarEstudiante') }}">Crear</a></li>
                     <li><a class="dropdown-item" href="{{ url_for('escogerEstudiante') }}">Escoger</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('escogerEstudianteActualizar') }}">Actualizar</a></li>
                     
                   </ul>
                 </li>
@@ -54,7 +55,15 @@
               {% else %}
                 <a class="nav-item nav-link" href="{{ url_for('home') }}">Iniciar Sesión</a>
                 <a class="nav-item nav-link" href="{{ url_for('registrarDocente') }}">Docente</a>
-                <a class="nav-item nav-link" href="{{ url_for('registrarEstudiante') }}">Estudiante</a>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Estudiante</a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{{ url_for('registrarEstudiante') }}">Crear</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('escogerEstudianteActualizar') }}">Actualizar</a></li>
+                    
+                  </ul>
+                </li>
+
                 <a class="nav-item nav-link" href="{{ url_for('estudianteReporte') }}">Reportes</a>
               {% endif %}
             </div>

@@ -1,7 +1,7 @@
 from flask import render_template, sessions, url_for, flash, redirect, request
 from flask.json import jsonify
 from Aula import app, db, bcrypt, idEstudiante, idCategoria
-from Aula.forms import ActualizarDocenteForm, LoginForm, RegistrarEstudianteForm, RegistrarDocenteForm, RegistrarJuego, ActualizarDocenteForm
+from Aula.forms import ActualizarDocenteForm, LoginForm, RegistrarEstudianteForm, RegistrarDocenteForm, RegistrarJuego, ActualizarDocenteForm, ActualizarEstudianteForm
 from Aula.models import Estudiante, Docente, Juego, Categoria, Reporte
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import date
@@ -17,7 +17,7 @@ def home():
     if current_user.is_authenticated:
         return redirect(url_for('escogerEstudiante'))
     form = LoginForm()
-    if form.is_submitted():
+    if form.validate_on_submit():
         doc = Docente.query.filter_by(nombreUsuario=form.nombreUsuario.data).first()
         if doc and bcrypt.check_password_hash(doc.contrasenia, form.password.data):
             login_user(doc)
@@ -312,7 +312,7 @@ def registrarDocente():
         return redirect(url_for('escogerEstudiante'))
     form = RegistrarDocenteForm()
     
-    if form.is_submitted():
+    if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         doc = Docente(  nombre=form.nombre.data, 
                         apellido=form.apellido.data, 
@@ -332,7 +332,7 @@ def registrarDocente():
 def registrarEstudiante():
     form = RegistrarEstudianteForm()
     
-    if form.is_submitted():
+    if form.validate_on_submit():
         
         estu = Estudiante(  nombre=form.nombre.data, 
                             apellido=form.apellido.data, 
@@ -437,11 +437,59 @@ def perfilDocente():
     
     return render_template('perfilDocente.html', title='Perfil', form=form, nombreUsuario = nombreUsuario)
 
+
+@app.route("/escogerEstudianteActualizar", methods=['GET', 'POST'])
+def escogerEstudianteActualizar():
+    
+    estudiantes = Estudiante.query.all()
+    
+    return render_template('escogerEstudianteActualizar.html', title='Reportes', estudiantes=estudiantes)
+
+        
+
+@app.route("/actualizarEstudiante", methods=['GET', 'POST'])
+def actualizarEstudiante():
     
     
+    form = ActualizarEstudianteForm()
+    
+    
+    
+    if form.validate_on_submit():
+                    
+        idEstudiante.nombre = form.nombre.data 
+        idEstudiante.apellido = form.apellido.data 
+        idEstudiante.fechaNacimiento = form.fechaNacimiento.data 
+        idEstudiante.genero = form.genero.data 
+        idEstudiante.anioBasica = form.anioBasica.data 
+        idEstudiante.diagnostico = form.diagnostico.data 
+        idEstudiante.residencia = form.residencia.data 
+        idEstudiante.carnet = form.carnet.data 
+        idEstudiante.porcentajeDiscapacidad = form.porcentajeDiscapacidad.data 
+        idEstudiante.escolarizado = form.escolarizado.data 
+        
 
-
-
+        db.session.commit()
+        flash('Students account has been updated', category="success")
+        
+        return redirect(url_for('home'))
+    
+    #to put the user data in the form when is logged in
+    elif request.method == 'GET':
+        
+        form.nombre.data = idEstudiante.nombre
+        form.apellido.data = idEstudiante.apellido
+        form.fechaNacimiento.data = idEstudiante.fechaNacimiento
+        form.genero.data = idEstudiante.genero
+        form.anioBasica.data = idEstudiante.anioBasica
+        form.diagnostico.data = idEstudiante.diagnostico
+        form.residencia.data = idEstudiante.residencia
+        form.carnet.data = idEstudiante.carnet
+        form.porcentajeDiscapacidad.data = idEstudiante.porcentajeDiscapacidad
+        form.escolarizado.data = idEstudiante.escolarizado
+        
+    
+    return render_template('actualizarEstudiante.html', title='Actualizar Estudiante', form=form)
 
 
 
