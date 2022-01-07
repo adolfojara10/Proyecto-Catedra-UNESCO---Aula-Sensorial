@@ -66,3 +66,22 @@ class RegistrarJuego(FlaskForm):
     
     submit = SubmitField('Crear Juego')
     
+    
+    
+class ActualizarDocenteForm(FlaskForm):
+    nombre = StringField('Nombre',
+                           validators=[DataRequired(), Length(min=2, max=75)])
+    apellido = StringField('Apellido',
+                           validators=[DataRequired(), Length(min=2, max=75)])
+    fechaNacimiento = DateField('Fecha de Nacimiento', validators=[DataRequired()])
+    especialidad = StringField('Especialidad')
+    anioBasica = IntegerField("Año de Básica", validators=[DataRequired()])
+    
+        
+    password = PasswordField('Contraseña', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirmar Contraseña',
+                                     validators=[DataRequired(), EqualTo('password')])
+    
+    submit = SubmitField('Actualizar')
+    
+    

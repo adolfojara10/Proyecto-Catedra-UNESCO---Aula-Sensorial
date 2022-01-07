@@ -1,7 +1,7 @@
 from flask import render_template, sessions, url_for, flash, redirect, request
 from flask.json import jsonify
 from Aula import app, db, bcrypt, idEstudiante, idCategoria
-from Aula.forms import LoginForm, RegistrarEstudianteForm, RegistrarDocenteForm, RegistrarJuego
+from Aula.forms import ActualizarDocenteForm, LoginForm, RegistrarEstudianteForm, RegistrarDocenteForm, RegistrarJuego, ActualizarDocenteForm
 from Aula.models import Estudiante, Docente, Juego, Categoria, Reporte
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import date
@@ -399,6 +399,51 @@ def juegos():
             
     
     return render_template('RegistrarJuego.html', title='Registrar Juegos', form=form)
+
+
+
+@app.route("/perfilDocente",  methods=['GET', 'POST'])
+def perfilDocente():
+    
+    form = ActualizarDocenteForm()
+    nombreUsuario = current_user.nombreUsuario
+    
+    if form.validate_on_submit():
+                    
+        current_user.nombre = form.nombre.data 
+        current_user.apellido = form.apellido.data 
+        current_user.fechaNacimiento = form.fechaNacimiento.data 
+        current_user.especialidad = form.especialidad.data 
+        current_user.anioBasica = form.anioBasica.data 
+        current_user.password = form.password.data 
+
+        db.session.commit()
+        flash('Your account has been updated', category="success")
+        
+        return redirect(url_for('escogerEstudiante'))
+    
+    #to put the user data in the form when is logged in
+    elif request.method == 'GET':
+        
+        form.nombre.data = current_user.nombre
+        form.apellido.data = current_user.apellido
+        form.fechaNacimiento.data = current_user.fechaNacimiento
+        form.especialidad.data  = current_user.especialidad
+        form.anioBasica.data = current_user.anioBasica
+        form.password.data = current_user.contrasenia 
+        form.confirm_password.data = current_user.contrasenia
+        
+    
+    
+    return render_template('perfilDocente.html', title='Perfil', form=form, nombreUsuario = nombreUsuario)
+
+    
+    
+
+
+
+
+
 
 
 @app.route("/logout")
