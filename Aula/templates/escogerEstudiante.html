@@ -1,6 +1,5 @@
 {% extends "layout.html" %}
 {% block content %}
-
     <h1>Escoger estudiante</h1>
     <!--
     <form class="d-flex">
@@ -9,9 +8,10 @@
     </form>
 -->
 
-    <table id="table" class="table table-hover"  data-toggle="table" data-pagination="true" data-search="true">
+    <table id="table" class="table table-striped"  data-toggle="table" data-pagination="true" data-search="true">
           <thead>
-          <tr>
+          <tr>            
+            <th scope="col">Usuario</th>
             <th scope="col">ID</th>
             <th scope="col">Nombre</th>
             <th scope="col">Apellido</th>
@@ -24,7 +24,13 @@
             {% for estu in estudiantes %}
               
                 <tr>
-                  
+                    <td class="py-1">
+                      {% if estu.genero == 'Masculino' %} 
+                        <img src="{{ url_for('static', filename='imagenes/boy.png') }}"></img>
+                      {% else %}
+                        <img src="{{ url_for('static', filename='imagenes/girl.png') }}"></img>
+                      {% endif %}
+                    </td>
                     <th scope="row">{{ estu.id }}</th>
                     <td>{{ estu.nombre }}</td>
                     <td>{{ estu.apellido }}</td>
