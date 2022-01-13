@@ -1,13 +1,15 @@
 {% extends "layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
 {% block content %}
-    <div class="content-section">
+    <div class="content-section" >
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Iniciar Sesión</legend>
-                <div class="form-group">
+                <div class="form-group" >                    
                     {{ form.nombreUsuario.label(class="form-control-label") }}
-                    {% if form.nombreUsuario.errors %}
+                    {% if form.nombreUsuario.errors %}                        
                         {{ form.nombreUsuario(class="form-control form-control-lg is-invalid") }}
                         <div class="invalid-feedback">
                             {% for error in form.nombreUsuario.errors %}

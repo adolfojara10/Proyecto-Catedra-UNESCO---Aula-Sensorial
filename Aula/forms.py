@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, DateField, IntegerField, SelectField, TextAreaField
+from wtforms.fields import StringField, PasswordField, SubmitField, DateField, IntegerField, SelectField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from Aula.models import Docente, Estudiante
 
