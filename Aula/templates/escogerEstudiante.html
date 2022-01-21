@@ -18,6 +18,7 @@
             <th scope="col">Fecha Nacimiento</th>
             <th scope="col">Año Basica</th>
             <th scope="col">Diagnostico</th>
+            <th scope="col">Accion</th>
           </tr>
         </thead>
         <tbody>
@@ -37,7 +38,9 @@
                     <td>{{ estu.fechaNacimiento }}</td>
                     <td>{{ estu.anioBasica }}</td>
                     <td>{{ estu.diagnostico }}</td>
-                  
+                    <td>
+                      <a class="btn btn-primary" href="{{ url_for('escogerJuego') }}" role="button">Continuar</a>
+                    </td>
                 </tr>
               
             {% endfor %}
