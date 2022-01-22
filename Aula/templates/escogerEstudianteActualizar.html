@@ -12,19 +12,25 @@
     <table id="table" class="table table-hover"  data-toggle="table" data-pagination="true" data-search="true">
           <thead>
           <tr>
+            <th scope="col">Usuario</th>
             <th scope="col">ID</th>
             <th scope="col">Nombre</th>
             <th scope="col">Apellido</th>
             <th scope="col">Fecha Nacimiento</th>
             <th scope="col">Año Basica</th>
-            <th scope="col">Diagnostico</th>
           </tr>
         </thead>
         <tbody>
             {% for estu in estudiantes %}
               
                 <tr>
-                  
+                    <td class="py-1">
+                      {% if estu.genero == 'Masculino' %} 
+                        <img src="{{ url_for('static', filename='imagenes/boy.png') }}"></img>
+                      {% else %}
+                        <img src="{{ url_for('static', filename='imagenes/girl.png') }}"></img>
+                      {% endif %}
+                    </td>
                     <th scope="row">{{ estu.id }}</th>
                     <td>{{ estu.nombre }}</td>
                     <td>{{ estu.apellido }}</td>
@@ -58,7 +64,7 @@
             if(element[0]!== undefined){ //it must be selected
 
               alert("Ha escogido al estudiante: " + element[0].children[1].firstChild.data + " " + element[0].children[2].firstChild.data + ". ¿Desea continuar?");
-              var id_est = (element[0].children[0].firstChild.data);
+              var id_est = (element[0].children[1].firstChild.data);
               console.log(id_est)
 
               $.ajax({
