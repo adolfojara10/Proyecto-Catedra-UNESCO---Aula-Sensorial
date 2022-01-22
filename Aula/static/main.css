@@ -2,10 +2,11 @@ body {
     background: #fafafa;
     color: #333333;
     margin-top: 5rem;
+    background-image: url("imagenes/fondo-azul.jpeg");
 }
 
 h1 {
-    color: #1c3f68;
+    color: #ffffff;
     text-align: center;
 }
 
@@ -20,12 +21,13 @@ h4,
 h5,
 h6,
 blockquote {
-    color: #444444;
+    color: #ffffff;
     text-align: center;
 }
 
 .table {
     text-align: center;
+    color: #ffffff;
 }
 
 
@@ -139,4 +141,5 @@ a.article-title:hover {
 
 .table tbody tr.highlight td {
     background-color: #ddd;
+    color: #ffffff;
 }
