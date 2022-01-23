@@ -42,7 +42,8 @@ blockquote {
 }
 
 .bg-steel {
-    background-color: #63b6f1;
+    background-color: #2e58e4;
+    background-image: url("imagenes/fondo-azul.jpeg");
 }
 
 
@@ -141,5 +142,4 @@ a.article-title:hover {
 
 .table tbody tr.highlight td {
     background-color: #ddd;
-    color: #ffffff;
 }
